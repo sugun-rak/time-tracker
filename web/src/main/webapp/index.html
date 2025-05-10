@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CityBus - Book Your Journey, Travel Smart</title>
+  <meta name="description" content="Book public bus tickets, manage your journey, and travel with confidence. Fast, secure, and crowd-aware. Live the life you dreamt of with CityBus.">
+  <link rel="stylesheet" href="nw_usr_1sysv.css">
+  <!-- Add MapmyIndia (Mappls) API -->
+  <!--<script src="https://apis.mapmyindia.com/map_v3/1.js?callback=initMap&key=YOUR_MAPMYINDIA_API_KEY&libraries=places,geocoding,autocomplete" async defer></script>-->
+  <!-- Add our script file -->
+  <script src="nw_usr_1jvssv.js"></script>
+</head>
+<body>
+  <!-- Logo Bar (Always Visible) -->
+  <div class="logo-bar">
+    <div class="logo">
+      <svg viewBox="0 0 24 24" width="32" height="32">
+        <path fill="currentColor" d="M18,10H6V5H18M18,18H6V13H18M3,3H21V21H3V3Z"/>
+      </svg>
+      <span>CityBus</span>
+    </div>
+  </div>
+
+  <!-- Navigation Bar (Hidden Initially) -->
+  <nav class="navbar" id="mainNav" style="display: none;">
+    <div class="nav-links">
+      <button class="nav-link" style="background:none;border:none;padding:0.5rem 1rem;" title="Back to Home" onclick="showScreen('home')">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 20v-6h4v6m5-8.5V19a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7.5M19 10.5l-7-7-7 7" stroke="#4f46e5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <button class="nav-link" onclick="showScreen('bookingForm')">New Booking</button>
+      <button class="nav-link" onclick="showScreen('busList')">Buses</button>
+      <button class="nav-link" onclick="showScreen('ticketSection')">Tickets</button>
+      <button class="nav-link" onclick="showScreen('archiveSection')">Archive</button>
+      <button class="nav-link exit-btn" onclick="exitApp()">Exit</button>
+    </div>
+  </nav>
+
+  <header>
+    <h1>CityBus</h1>
+    <p>Book your journey. Travel smart. Live your dream life.</p>
+  </header>
+
+  <main>
+    <!-- Home Screen -->
+    <div id="home" class="screen active">
+      <div class="welcome-section">
+        <div class="hero-content">
+          <h1>Welcome to CityBus</h1>
+          <p>Your trusted partner for smart and convenient bus travel</p>
+          <div class="features">
+            <div class="feature">
+              <svg viewBox="0 0 24 24" width="32" height="32">
+                <path fill="currentColor" d="M4,16c0,0.88 0.39,1.67 1,2.22V20c0,0.55 0.45,1 1,1h1c0.55,0 1-0.45 1-1v-1h8v1c0,0.55 0.45,1 1,1h1c0.55,0 1-0.45 1-1v-1.78c0.61-0.55 1-1.34 1-2.22V6c0-3.5-3.58-4-8-4s-8,0.5-8,4v10zm3.5,1c-0.83,0-1.5-0.67-1.5-1.5S6.67,14 7.5,14s1.5,0.67 1.5,1.5S8.33,17 7.5,17zm9,0c-0.83,0-1.5-0.67-1.5-1.5s0.67-1.5 1.5-1.5 1.5,0.67 1.5,1.5-0.67,1.5-1.5,1.5z"/>
+              </svg>
+              <span>Real-time Bus Tracking</span>
+            </div>
+            <div class="feature">
+              <svg viewBox="0 0 24 24" width="32" height="32">
+                <path fill="currentColor" d="M20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12M22,12A10,10 0 0,0 12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7Z"/>
+              </svg>
+              <span>Live Crowd Updates</span>
+            </div>
+            <div class="feature">
+              <svg viewBox="0 0 24 24" width="32" height="32">
+                <path fill="currentColor" d="M3,6H21V18H3V6M12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9M7,8A2,2 0 0,1 5,10V14A2,2 0 0,1 7,16H17A2,2 0 0,1 19,14V10A2,2 0 0,1 17,8H7Z"/>
+              </svg>
+              <span>Easy Online Booking</span>
+            </div>
+          </div>
+          <button class="btn book-now-btn" onclick="startBooking()">
+            <span>Book Now</span>
+            <svg viewBox="0 0 24 24" width="24" height="24">
+              <path fill="currentColor" d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Booking Step Screen (moved out of home) -->
+    <div id="bookingStep" class="screen" style="display: none; position: relative;">
+      <button id="bookingStepHomeIcon" style="position:absolute;top:1rem;right:1rem;z-index:10;background:none;border:none;cursor:pointer;padding:0.75rem;border-radius:50%;transition:background-color 0.3s;box-shadow:0 2px 4px rgba(0,0,0,0.1);" title="Return to Home" onclick="showScreen('home')" onmouseover="this.style.backgroundColor='rgba(79,70,229,0.1)'" onmouseout="this.style.backgroundColor='transparent'">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" stroke="#4f46e5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <h2>Where are you booking from?</h2>
+      <div class="option-group">
+        <div class="option" data-value="bus-stop" onclick="selectBookingOption('bus-stop')">
+          <svg viewBox="0 0 24 24" width="24" height="24">
+            <path fill="currentColor" d="M12,2C8.13,2 5,5.13 5,9c0,5.25 7,13 7,13s7-7.75 7-13c0-3.87-3.13-7-7-7zM12,11.5c-1.38,0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5,1.12 2.5,2.5-1.12,2.5-2.5,2.5z"/>
+          </svg>
+          <span>Bus-Stop</span>
+        </div>
+        <div class="option" data-value="outside" onclick="selectBookingOption('outside')">
+          <svg viewBox="0 0 24 24" width="24" height="24">
+            <path fill="currentColor" d="M12,2C8.13,2 5,5.13 5,9c0,5.25 7,13 7,13s7-7.75 7-13c0-3.87-3.13-7-7-7zM12,11.5c-1.38,0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5,1.12 2.5,2.5-1.12,2.5-2.5,2.5z"/>
+          </svg>
+          <span>Outside</span>
+        </div>
+      </div>
+      <!-- Booking Type Options -->
+      <div id="bookingTypeOptions" class="booking-type-options" style="display: none;">
+        <h3>How would you like to book?</h3>
+        <div class="option-group">
+          <div class="option" data-value="self-online" onclick="selectBookingType('self-online')">
+            <svg viewBox="0 0 24 24" width="24" height="24">
+              <path fill="currentColor" d="M20,18C21.1,18 22,18.9 22,20V22H2V20C2,18.9 2.9,18 4,18H20M4,4H20C21.1,4 22,4.9 22,6V14C22,15.1 21.1,16 20,16H4C2.9,16 2,15.1 2,14V6C2,4.9 2.9,4 4,4M4,6V14H20V6H4Z"/>
+            </svg>
+            <span>Self Online Booking</span>
+          </div>
+          <div class="option" data-value="call-center" onclick="selectBookingType('call-center')">
+            <svg viewBox="0 0 24 24" width="24" height="24">
+              <path fill="currentColor" d="M6.62,10.79C8.06,13.62 10.38,15.94 13.21,17.38L15.41,15.18C15.69,14.9 16.08,14.82 16.43,14.93C17.55,15.3 18.75,15.5 20,15.5A1,1 0 0,1 21,16.5V20A1,1 0 0,1 20,21A17,17 0 0,1 3,4A1,1 0 0,1 4,3H7.5A1,1 0 0,1 8.5,4C8.5,5.25 8.7,6.45 9.07,7.57C9.18,7.92 9.1,8.31 8.82,8.59L6.62,10.79Z"/>
+            </svg>
+            <span>Call Center</span>
+          </div>
+        </div>
+      </div>
+      <!-- Call Center Information -->
+      <div id="callCenterInfo" class="call-center-info" style="display: none;">
+        <div class="info-card">
+          <h3>Call Center Information</h3>
+          <div class="contact-details">
+            <p><strong>24/7 Booking Helpline:</strong></p>
+            <div class="phone-numbers">
+              <a href="tel:1800-123-4567" class="phone-link">
+                <svg viewBox="0 0 24 24" width="20" height="20">
+                  <path fill="currentColor" d="M6.62,10.79C8.06,13.62 10.38,15.94 13.21,17.38L15.41,15.18C15.69,14.9 16.08,14.82 16.43,14.93C17.55,15.3 18.75,15.5 20,15.5A1,1 0 0,1 21,16.5V20A1,1 0 0,1 20,21A17,17 0 0,1 3,4A1,1 0 0,1 4,3H7.5A1,1 0 0,1 8.5,4C8.5,5.25 8.7,6.45 9.07,7.57C9.18,7.92 9.1,8.31 8.82,8.59L6.62,10.79Z"/>
+                </svg>
+                1800-123-4567
+              </a>
+              <a href="tel:1800-987-6543" class="phone-link">
+                <svg viewBox="0 0 24 24" width="20" height="20">
+                  <path fill="currentColor" d="M6.62,10.79C8.06,13.62 10.38,15.94 13.21,17.38L15.41,15.18C15.69,14.9 16.08,14.82 16.43,14.93C17.55,15.3 18.75,15.5 20,15.5A1,1 0 0,1 21,16.5V20A1,1 0 0,1 20,21A17,17 0 0,1 3,4A1,1 0 0,1 4,3H7.5A1,1 0 0,1 8.5,4C8.5,5.25 8.7,6.45 9.07,7.57C9.18,7.92 9.1,8.31 8.82,8.59L6.62,10.79Z"/>
+                </svg>
+                1800-987-6543
+              </a>
+            </div>
+            <p class="info-text">Our representatives will help you book your tickets and arrange for printed copies at your nearest bus stop.</p>
+            <p class="working-hours">Working Hours: 24x7</p>
+          </div>
+        </div>
+      </div>
+      <div class="step-actions">
+        <button id="continueBtn" class="btn" onclick="nextBookingStep()" style="display: none;">Continue to Booking</button>
+      </div>
+    </div>
+
+    <!-- Map Modal -->
+    <div id="mapModal" class="modal" style="display: none;">
+      <div class="modal-content map-modal">
+        <div class="modal-header">
+          <h3>Select Location</h3>
+          <button class="close-btn" onclick="closeMap()">×</button>
+        </div>
+        <div class="map-container">
+          <div id="map"></div>
+          <div class="map-search">
+            <input type="text" id="mapSearchInput" placeholder="Search location...">
+            <button class="search-btn" onclick="searchLocation()">Search</button>
+          </div>
+        </div>
+        <div class="map-actions">
+          <button class="btn" onclick="confirmLocation()">Confirm Location</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Booking Form Screen -->
+    <div id="bookingForm" class="screen">
+      <!-- The content will be dynamically populated by JavaScript -->
+    </div>
+
+    <!-- Bus List Screen -->
+    <div id="busList" class="screen">
+      <div class="screen-header">
+        <h2>Available Buses</h2>
+      </div>
+      <div class="bus-list-content"></div>
+    </div>
+
+    <!-- Ticket Section Screen -->
+    <div id="ticketSection" class="screen">
+      <div class="screen-header">
+        <h2>Your Tickets</h2>
+      </div>
+      <div class="ticket-content"></div>
+    </div>
+
+    <!-- Archive Section Screen -->
+    <div id="archiveSection" class="screen">
+      <div class="screen-header">
+        <h2>Archived Tickets</h2>
+      </div>
+      <div id="archivedTickets"></div>
+    </div>
+  </main>
+
+  <footer style="text-align:center; color:#aaa; font-size:0.95em; margin:2em 0 1em 0;">&copy; 2024 CityBus_SR. All rights reserved.</footer>
+</body>
+</html> 
